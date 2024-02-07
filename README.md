@@ -6,16 +6,15 @@ git clone https://github.com/KalengBalsem/instalyzer.git
 ```
 3. locate the instalyzer file in the terminal:
    ```
-   # windows cmd command
    cd instalyzer
    ```
 6. install the dependencies by running this command in the terminal:
 ```
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 7. run this command in the terminal to run the server in localhost:
 ```
-python main.py
+python3 main.py
 
 PS C:\Users\balse\Documents\VScode\instalyzer> python main.py
 
