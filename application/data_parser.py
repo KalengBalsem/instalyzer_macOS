@@ -6,7 +6,7 @@ def get_profile_picture(url, username):
     img = requests.get(url).content
     with open(f'scraper/profile_pictures/{username}.jpg', 'wb') as file:
         file.write(img)
-    return f'scraper\profile_pictures\{username}.jpg'
+    return f'scraper/profile_pictures/{username}.jpg'
 
 
 def parse_profile(json_file):
