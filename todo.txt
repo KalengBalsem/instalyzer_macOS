@@ -1,0 +1,21 @@
+Todo
+-
+
+Error handling and security:
+# making sure the ig ig_username exists and not in private
+
+optimization
+# pass the json object to save it in database rather than export the .json file first.
+
+
+scaling
+# following end_route to get more posts data from requests (iteration)
+    # problems:
+        # it keeps iterating
+
+
+# additional data for posts in models.py
+
+features:
+# user input some hashtags (max: 5) and see the comparison of each with multiple barchart vis
+# updated data: showing some changes in followers/ing (up/down) by comparing new dataset with old dataset

@@ -1,0 +1,219 @@
+{% extends "layout.html" %}
+{% block body %}
+  <!-- SIDEBAR (PROFILE)-->
+  <section class="sidebar">
+    <div class="top">
+        <img src='{{ ig_profile.profile_picture }}' alt="profile_picture" width=100>
+        <p>@{{ ig_profile.username }}</p>
+    </div>
+    
+    <div class="sidebar-info">
+        <h4>{{ ig_profile.full_name }}</h4>
+        <p class="category">{{ ig_profile.category }}</p>
+        <p>{{ ig_profile.bio }}</p>
+        <p>{{ ig_profile.bio_link }}</p>
+        <br />  
+        <p>posts: {{ ig_profile.posts_count }}</p>
+        <p>followers: {{ ig_profile.followers }}</p>
+        <p>following: {{ ig_profile.following }}</p>
+        <P>highlights: {{ ig_profile.no_of_highlights }}</P>
+
+        {% if ig_profile.is_private %}
+
+        <br>
+        <p><b><i>This account is private.</i></b></p>
+    
+        {% endif %}
+
+        <!-- UPDATE BUTTON IF DATA IS ALREADY IN DATABASE-->
+        {% if update_available == True %}
+        <a href="{{ url_for('routes.update_data') }}"><button>Update Data</button></a>
+        {% endif %}
+    </div>
+  </section>
+
+
+{% block javascript %}
+  <!-- DASHBOARD (CHART, ...)-->
+  <main>
+
+    <div class="chartCard">
+      <div class="chartBox">
+        <canvas id="popularUploadDay"></canvas>
+      </div>
+      <div class="chartBox"> 
+        <canvas id="postsVolume"></canvas>
+      </div>
+      <div class="chartBox"> 
+        <canvas id="popularUploadTime"></canvas>
+      </div>
+      <div class="chartBox"> 
+        <canvas id="postsRatio"></canvas>
+      </div>
+    </div>
+    <div class="chartCard2">
+      <div class="tags">
+
+        <div class="top-list">
+            <p>Top Hashtags:</p>
+            {% for i in analyzed_data.top_hashtags[0].top_hashtags %}
+              <span>{{ i }}</span>
+            {% endfor %}
+        </div>
+        <div class="top-list">
+            <p>Top Words:</p>
+            {% for i in analyzed_data.top_words[0].top_words %}
+              <span>{{ i }}</span>
+            {% endfor %}
+        </div>
+      </div>
+
+      <div class="chartBox"> 
+        <canvas id="postsPerformance"></canvas>
+      </div>
+    </div>
+    <div class="posts-list">
+      <h3>Most Liked Posts</h3>
+      <ol>
+        {% for i in analyzed_data.most_liked_posts[0].most_liked_posts %}
+        <li><a href="{{ i }}" target=”_blank”>{{ i }}</a></li>
+        {% endfor %}
+      </ol>
+      <br />
+      <h3>Most Commented Posts</h3>
+      <ol>
+        {% for i in analyzed_data.most_commented_posts[0].most_commented_posts %}
+        <li><a href="{{ i }}" target=”_blank”>{{ i }}</a></li>
+        {% endfor %}
+      </ol>
+    </div>
+
+  </main>
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    let analyzed_data = {{ analyzed_data | tojson }}
+    console.log(analyzed_data);
+    
+    const popularUploadDay = document.getElementById('popularUploadDay');
+    const popularUploadTime = document.getElementById('popularUploadTime');
+    const postsPerformance = document.getElementById('postsPerformance');
+    const postsRatio = document.getElementById('postsRatio');
+    const postsVolume = document.getElementById('postsVolume');
+
+    new Chart(popularUploadDay, {
+      type: 'bar',
+      data: {
+        labels: analyzed_data.popularUploadDay[0]['x'],
+        datasets: [{
+          label: 'Average Likes',
+          data: analyzed_data.popularUploadDay[0]['y'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        aspectRatio: 1,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });     
+    
+    new Chart(popularUploadTime, {
+      type: 'bar',
+      data: {
+        labels: analyzed_data.popularUploadTime[0]['x'],
+        datasets: [{
+          label: 'Average Likes',
+          data: analyzed_data.popularUploadTime[0]['y'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        aspectRatio: 1,
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Time (in \o\'clock)'
+            }
+          },
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+    
+    new Chart(postsPerformance, {
+      type: 'line',
+      data: {
+        labels: analyzed_data.postsPerformance[0]['x'],
+        datasets: [{
+          label: 'Likes',
+          data: analyzed_data.postsPerformance[0]['y1'],
+          borderWidth: 1
+        },
+        {
+          label: 'Comments',
+          data: analyzed_data.postsPerformance[0]['y2'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        aspectRatio: 1|3,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    new Chart(postsRatio, {
+      type: 'pie',
+      data: {
+        labels: analyzed_data.postsRatio[0]['x'],
+        datasets: [{
+          label: "Post's Type Ratio",
+          data: analyzed_data.postsRatio[0]['y'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+
+      }
+    });
+
+    new Chart(postsVolume, {
+      type: 'bar',
+      data: {
+        labels: analyzed_data.postsVolume[0]['x'],
+        datasets: [{
+          label: 'Post Volume',
+          data: analyzed_data.postsVolume[0]['y'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        aspectRatio: 1,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+
+<!-- LOADING SCREEN -->
+  <div class="loader-wrapper">
+    <span class="loader"><span class="loader-inner"></span></span>
+  </div>
+  <script type="text/javascript"> $(window).on("load", function (e) { $(".loader-wrapper").fadeOut("slow"); }); </script>
+
+{% endblock %}
+{% endblock %}

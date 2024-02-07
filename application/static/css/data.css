@@ -1,0 +1,214 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* =============== ROOT VARIABLES =============== */
+
+:root {
+    --color-primary: #F7F8FB;
+    --color-sidebar: #ffffff;
+}
+
+/* =============== BODY =============== */
+
+body {
+    display: flex;
+    font-family: sans-serif;
+}
+
+/* =============== FORM =============== */
+form {
+    padding: 1rem;
+}
+.input {
+    padding: 3px;
+}
+
+button {
+    padding: 3px;
+    background-color: black;
+    color: white;
+}
+
+/* =============== SIDEBAR =============== */
+.sidebar {
+    background: white;
+    height: 100%;
+    width: 300px;
+    position: fixed;
+    padding-top: 1.5em;
+}
+
+.sidebar .top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 2.4rem;
+}
+
+.sidebar-info {
+    background: white;
+    line-height: 1.5rem;
+    padding: 10px 30px 30px 30px;
+    word-wrap: break-word;
+}
+
+.sidebar-info a:last-child {
+    position: absolute;
+    bottom: 3em;
+}
+
+/* =============== TOP LIST =============== */
+.top-list {
+    background: white;
+    width: 250px;
+    height: fit-content;
+    padding: 20px;
+    margin: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.top-list p {
+    width: 100%;
+}
+
+.top-list span {
+    background-color: lightgrey;
+    padding: 5px;
+    margin: 2px;
+}
+
+/* =============== ADD FONT SETTINGS =============== */
+
+p.category {
+    color: darkgray;
+}
+
+
+/* =============== MAIN =============== */
+
+main {
+    background: var(--color-primary);
+    width: 100%;
+    margin: 0 20px;
+    margin-left: 300px;
+}
+
+/* =============== CHART POSITION =============== */
+.chartBox {
+    background: white;
+    padding: 10px;
+    margin: 10px;
+}
+
+.chartCard {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chartCard .chartBox {
+    width: 250px;
+    height: 250px;
+}
+
+.chartCard2 {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chartCard2 .chartBox {
+    flex-grow: 1;
+}
+
+/* =============== RESPONSIVITY =============== */
+@media only screen and (max-width: 815px) {
+    body {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        padding-bottom: 10rem;
+    }
+
+    main {
+        margin: 0;
+        text-align: center;
+    }
+}
+
+/* =============== LOADING ANIMATION =============== */
+
+.loader-wrapper {
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    position: relative;
+    border: 4px solid black;
+    animation: loader 2s infinite ease;
+  }
+  
+  .loader-inner {
+    vertical-align: top;
+    display: inline-block;
+    width: 100%;
+    background-color: black;
+    animation: loader-inner 2s infinite ease-in;
+  }
+  
+@keyframes loader {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(180deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(360deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+    }
+
+    @keyframes loader-inner {
+    0% {
+        height: 0%;
+    }
+
+    25% {
+        height: 0%;
+    }
+
+    50% {
+        height: 100%;
+    }
+
+    75% {
+        height: 100%;
+    }
+
+    100% {
+        height: 0%;
+    }
+}
